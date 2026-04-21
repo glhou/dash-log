@@ -1,1 +1,4 @@
-key
+.env.local
+.env.dev
+.env.prod
+.venv
