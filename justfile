@@ -4,6 +4,13 @@ default:
 fastapi:
     uv run fastapi dev --port 8000
 
+
+alembic-upgrade:
+  uv run alembic upgrade head
+
+alembic-migration message:
+  uv run alembic revision --autogenerate -m {{message}}
+
 vite:
   cd frontend && npm run dev
 
