@@ -1,3 +1,5 @@
+import type { badgeVariants } from "../components/ui/badge"
+import type { VariantProps } from "class-variance-authority"
 
 export const LogLevel = {
   Debug: 10,
@@ -18,7 +20,15 @@ export const LogLevelLabel: Record<LogLevel, string> = {
   [LogLevel.Critical]: 'Critical',
 }
 
+type BadgeVariant = VariantProps<typeof badgeVariants>["variant"]
 
+export const LogLevelVariant: Record<LogLevel, BadgeVariant> = {
+  [LogLevel.Debug]: "debug",
+  [LogLevel.Info]: "info",
+  [LogLevel.Warning]: "warning",
+  [LogLevel.Error]: "destructive",
+  [LogLevel.Critical]: "critical",
+}
 
 export interface Message {
   level: LogLevel

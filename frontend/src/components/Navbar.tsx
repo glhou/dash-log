@@ -4,7 +4,8 @@ import { Separator } from './ui/separator'
 
 const links = [
   { to: '/ui/', label: 'Home' },
-  { to: '/ui/dashboard', label: 'Dashboard' },
+  { to: '/ui/logs', label: 'Logs' },
+  { to: '/ui/dashboard', label: 'Dashboard' }
 ]
 
 export default function Navbar() {

@@ -19,6 +19,12 @@ async def list_logs(
     return MessageOutput(result=logs)
 
 
+@log_router.get("/services")
+async def list_services(session: AsyncSession = SessionDep):
+    services = await log_service.list_services(session)
+    return MessageOutput(result=services)
+
+
 @log_router.post("/")
 async def save_logs(logs: list[Log], session: AsyncSession = SessionDep):
     for log in logs:
