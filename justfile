@@ -2,7 +2,7 @@ default:
   just -l
 
 fastapi:
-    uv run fastapi dev --port 8000
+  uv run fastapi dev --port 8000
 
 
 alembic-upgrade:
@@ -14,6 +14,8 @@ alembic-migration message:
 vite:
   cd frontend && npm run dev
 
+fixtures:
+  uv run scripts/load_fixtures.py
 
 prod:
   just build
