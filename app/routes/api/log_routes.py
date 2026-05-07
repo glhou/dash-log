@@ -4,6 +4,7 @@ from fastapi import APIRouter, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.log_models import Log
+from app.routes.common.message_output import MessageOutput
 from app.routes.dependencies.session_dependency import SessionDep
 from app.services.log import log_service
 
@@ -15,7 +16,7 @@ async def list_logs(
     q: Annotated[log_service.ListLogsQuery, Query()], session: AsyncSession = SessionDep
 ):
     logs = await log_service.list_logs(session, q)
-    return logs
+    return MessageOutput(result=logs)
 
 
 @log_router.post("/")
