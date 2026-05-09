@@ -18,7 +18,6 @@ logger = logging.getLogger(__name__)
 async def list_logs(
     q: Annotated[log_service.ListLogsQuery, Query()], session: AsyncSession = SessionDep
 ):
-    logger.critical("test")
     logs = await log_service.list_logs(session, q)
     return MessageOutput(result=logs)
 
