@@ -16,7 +16,7 @@ engine = None
 def get_engine():
     global engine
     if not engine:
-        engine = create_async_engine(settings.database_url, echo=True)
+        engine = create_async_engine(settings.database_url, echo=False)
     return engine
 
 

@@ -1,0 +1,13 @@
+[project]
+name = "dash-log-handler"
+version = "0.1.0"
+description = "Logging handler fro dash-log"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pytest>=9.0.3",
+]
+
+authors = [
+  { name = "glhou" }
+]

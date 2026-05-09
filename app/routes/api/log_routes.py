@@ -1,3 +1,4 @@
+import logging
 from typing import Annotated
 
 from fastapi import APIRouter, Query
@@ -10,11 +11,14 @@ from app.services import log_service
 
 log_router = APIRouter(prefix="/log", tags=["log"])
 
+logger = logging.getLogger(__name__)
+
 
 @log_router.get("/")
 async def list_logs(
     q: Annotated[log_service.ListLogsQuery, Query()], session: AsyncSession = SessionDep
 ):
+    logger.critical("test")
     logs = await log_service.list_logs(session, q)
     return MessageOutput(result=logs)
 
@@ -27,5 +31,5 @@ async def list_services(session: AsyncSession = SessionDep):
 
 @log_router.post("/")
 async def save_logs(logs: list[Log], session: AsyncSession = SessionDep):
-    await log_service.save_logs(session, logs)
-    return logs
+    logs = await log_service.save_logs(session, logs)
+    return MessageOutput(result=logs)
