@@ -37,6 +37,12 @@ messages = [
     "Failed to establish a connection to the server.",
     "An unexpected condition prevented completion of the request.",
 ]
+loggers = [
+    "app.core",
+    "app.routes.api.special_routes",
+    "sqlalchemy.error",
+    "uvicorn.error",
+]
 
 
 def make_logs(n: int) -> list[dict]:
@@ -45,6 +51,7 @@ def make_logs(n: int) -> list[dict]:
             "service": random.choice(services),
             "level": random.choice(list(LogLevel)),
             "message": random.choice(messages),
+            "logger": random.choice(loggers),
         }
         for _ in range(n)
     ]

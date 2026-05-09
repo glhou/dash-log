@@ -5,12 +5,14 @@ export interface Log {
   service: string
   level: LogLevel
   message: string
+  logger: string
 }
 
 type LogsResponse = MessageOutput<Log[]>
 
 export interface LogFilter {
   service: string | null
+  logger: string | null
   level: LogLevel | null
   limit: number | null
   offset: number | null

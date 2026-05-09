@@ -90,6 +90,7 @@ export default function Logs() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Service</TableHead>
+                  <TableHead>Logger</TableHead>
                   <TableHead>Level</TableHead>
                   <TableHead>Message</TableHead>
                 </TableRow>
@@ -98,6 +99,7 @@ export default function Logs() {
                 {logs?.result.map(log => (
                   <TableRow key={log.id}>
                     <TableCell>{log.service}</TableCell>
+                    <TableCell>{log.logger}</TableCell>
                     <TableCell><Badge variant={LogLevelVariant[log.level]}>{LogLevelLabel[log.level]}</Badge></TableCell>
                     <TableCell>{log.message}</TableCell>
                   </TableRow>
