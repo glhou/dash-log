@@ -11,6 +11,7 @@ from app.models.log_models import Log
 
 class ListLogsQuery(BaseModel):
     service: str | None = None
+    logger: str | None = None
     level: LogLevel | None = None
 
     limit: int = 50
@@ -23,6 +24,8 @@ class ListLogsQuery(BaseModel):
 def _filter_logs(stmt: Select[tuple[Log]], q: ListLogsQuery) -> Select[tuple[Log]]:
     if q.service:
         stmt = stmt.where(col(Log.service) == q.service)
+    if q.logger:
+        stmt = stmt.where(col(Log.logger) == q.logger)
     if q.level:
         stmt = stmt.where(col(Log.level) == q.level)
     return stmt
@@ -42,6 +45,15 @@ async def list_logs(session: AsyncSession, q: ListLogsQuery) -> Sequence[Log]:
 async def list_services(session: AsyncSession) -> Sequence[str]:
     # TODO: Filter per user / tenant later
     stmt = select(Log.service)
+    stmt = stmt.distinct()
+    r = await session.execute(stmt)
+    return r.scalars().all()
+
+
+async def list_loggers(session: AsyncSession, service_name: str) -> Sequence[str]:
+    # TODO: Filter per user / tenant later
+    stmt = select(Log.logger)
+    stmt.where(Log.service == service_name)
     stmt = stmt.distinct()
     r = await session.execute(stmt)
     return r.scalars().all()
