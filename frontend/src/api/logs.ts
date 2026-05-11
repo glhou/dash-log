@@ -6,9 +6,10 @@ export interface Log {
   level: LogLevel
   message: string
   logger: string
+  created_at: string
 }
 
-type LogsResponse = MessageOutput<Log[]>
+export type LogsResponse = MessageOutput<Log[]>
 
 export interface LogFilter {
   service: string | null

@@ -36,7 +36,7 @@ def _filter_logs(stmt: Select[tuple[Log]], q: ListLogsQuery) -> Select[tuple[Log
     if q.start_time:
         stmt = stmt.where(col(Log.created_at) >= q.start_time)
     if q.end_time:
-        stmt = stmt.where(col(Log.created_at < q.end_time))
+        stmt = stmt.where(col(Log.created_at) < q.end_time)
     return stmt
 
 
@@ -78,11 +78,11 @@ async def count_frequent_loggers(
     stmt = select(col(Log.logger), count().label("count"))
     stmt = stmt.group_by(Log.logger)
     stmt = stmt.order_by(count().desc())
-    stmt = stmt.where(col(Log.created_at) >= start)
-    stmt = stmt.where(col(Log.created_at < end))
+    stmt = stmt.where(Log.created_at >= start)
+    stmt = stmt.where(Log.created_at < end)
     stmt = stmt.limit(max_number)
     r = await session.execute(stmt)
-    return r.scalars().all()
+    return [(logger, count) for logger, count in r.all()]
 
 
 async def count_frequent_levels(
@@ -91,7 +91,7 @@ async def count_frequent_levels(
     stmt = select(col(Log.level), count().label("count"))
     stmt = stmt.group_by(col(Log.level))
     stmt = stmt.order_by(count().desc())
-    stmt = stmt.where(col(Log.created_at) >= start)
-    stmt = stmt.where(col(Log.created_at < end))
+    stmt = stmt.where(Log.created_at >= start)
+    stmt = stmt.where(Log.created_at < end)
     r = await session.execute(stmt)
-    return r.scalars().all()
+    return [(level, count) for level, count in r.all()]

@@ -16,12 +16,11 @@ class Timespan(BaseModel):
     end_time: datetime.datetime = datetime.datetime.now(datetime.UTC)
 
 
-class AlertFilter(BaseModel):
+class AlertFilter(Timespan):
     log_level: LogLevel = LogLevel.Critical
 
     limit: int = 50
     offset: int = 0
-    timespan: Timespan
 
 
 async def get_alert_logs(
@@ -33,15 +32,14 @@ async def get_alert_logs(
             level=alert_filter.log_level,
             limit=alert_filter.limit,
             offset=alert_filter.offset,
-            start_time=alert_filter.timespan.start_time,
-            end_time=alert_filter.timespan.end_time,
+            start_time=alert_filter.start_time,
+            end_time=alert_filter.end_time,
         ),
     )
 
 
-class OccurenceFilter(BaseModel):
+class OccurenceFilter(Timespan):
     number: int = 10
-    timespan: Timespan
 
 
 async def get_frequent_logger_occurence(
@@ -50,13 +48,12 @@ async def get_frequent_logger_occurence(
     return await log_repository.count_frequent_loggers(
         session,
         occurence_filter.number,
-        occurence_filter.timespan.start_time,
-        occurence_filter.timespan.end_time,
+        occurence_filter.start_time,
+        occurence_filter.end_time,
     )
 
 
-class LevelFrequencyFilter(BaseModel):
-    timespan: Timespan
+class LevelFrequencyFilter(Timespan): ...
 
 
 async def get_level_frequency(
@@ -64,6 +61,6 @@ async def get_level_frequency(
 ) -> Sequence[tuple[LogLevel, int]]:
     return await log_repository.count_frequent_levels(
         session,
-        level_frequency_filter.timespan.start_time,
-        level_frequency_filter.timespan.end_time,
+        level_frequency_filter.start_time,
+        level_frequency_filter.end_time,
     )

@@ -6,12 +6,13 @@ from app.core import settings
 
 
 def setup_logging():
-    logging.raiseExceptions = True
     root_logger = logging.getLogger()
 
     root_logger.handlers.clear()
 
-    root_logger.setLevel(logging.INFO)
+    logging.raiseExceptions = True
+
+    root_logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -28,5 +29,5 @@ def setup_logging():
         root_logger.addHandler(dl_handler)
 
     logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
-    logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
+    logging.getLogger("uvicorn.access").setLevel(logging.INFO)
     logging.getLogger("uvicorn.error").setLevel(logging.INFO)
